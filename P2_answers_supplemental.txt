@@ -16,4 +16,9 @@ In the min_value method, it finds the action that will result in a lower score. 
 max_value method to find the score of the next depth to determine its action because next agent will be the max agent. The min_value
 method works because after getting all the scores, it will find the action that results in the lowest score for the max agent.
 
+3.1) The AlphaBetaAgent minimax values should be identical to MinimaxAgent values because the AlphaBetaAgent is the basically the 
+same as the MinimaxAgent except that it prunes some of the subtrees.
+
+3.2) For the method, if there is a tie, the function will choose the first explored action.  
+
 

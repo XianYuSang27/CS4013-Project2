@@ -93,11 +93,8 @@ class ReflexAgent(Agent):
             # If no ghost is scared, consider the closest ghost
             scaredGhostDistance = min([manhattanDistance(newPos, ghost.getPosition()) for ghost in newGhostStates])
 
-        # Consider the number of remaining food pellets
-        food = len(foodList)
-
-        # Calculate the score based on the distance to food, distance to scared ghost, and remaining food
-        score += 20 / (foodDistance + 1) - 5 / (scaredGhostDistance + 1) + 100 / (food + 1)
+        # Calculate the score based on the distance to food and distance to scared ghost
+        score += 20 / (foodDistance + 1) - 5 / (scaredGhostDistance + 1)
 
         return score
 
@@ -159,8 +156,52 @@ class MinimaxAgent(MultiAgentSearchAgent):
         gameState.isLose():
         Returns whether or not the game state is a losing state
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        #Gets action for max agent
+        def max_value(state, depth):
+            #Check if terminal state
+            if state.isWin() or state.isLose() or depth == self.depth:
+                return self.evaluationFunction(state), None
+            v = float("-inf")
+            best_action = None
+            #Finds best action for max agent
+            for action in state.getLegalActions(self.index):
+                #Gets successor for action
+                successor = state.generateSuccessor(self.index, action)
+                #Gets score for next depth (min agent)
+                score, _ = min_value(successor, depth, 1)
+                #Determines best action depending on score
+                if score > v:
+                    v = score
+                    best_action = action
+            return v, best_action
+
+        #Gets action for min agent
+        def min_value(state, depth, agent_index):
+            #Check if terminal state
+            if state.isWin() or state.isLose() or depth == self.depth:
+                return self.evaluationFunction(state), None
+            v = float("inf")
+            best_action = None
+            #Finds best action for min agent
+            for action in state.getLegalActions(agent_index):
+                #Gets successor for action
+                successor = state.generateSuccessor(agent_index, action)
+                #Gets score of successor
+                if agent_index == state.getNumAgents() - 1:
+                    #If last min agent, get score for max agent
+                    score, _ = max_value(successor, depth + 1)
+                else:
+                    #Gets score for next depth (min agent)
+                    score, _ = min_value(successor, depth, agent_index + 1)
+                #Determines best action depending on score
+                if score < v:
+                    v = score
+                    best_action = action
+            return v, best_action
+        
+        #Returns best action for max agent
+        _, best_action = max_value(gameState, 0)
+        return best_action
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
     """

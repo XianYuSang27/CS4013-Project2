@@ -227,8 +227,59 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         All ghosts should be modeled as choosing uniformly at random from their
         legal moves.
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        def max_value(state, depth, alpha, beta):
+            #Check if terminal state
+            if state.isWin() or state.isLose() or depth == self.depth:
+                return self.evaluationFunction(state), None
+            v = float("-inf")
+            best_action = None
+            #Finds best action for max agent
+            for action in state.getLegalActions(self.index):
+                #Gets successor for action
+                successor = state.generateSuccessor(self.index, action)
+                #Gets score for next depth (min agent)
+                score, _ = min_value(successor, depth, 1, alpha, beta)
+                #Determines best action depending on score
+                if score > v:
+                    v = score
+                    best_action = action
+                #Stops search if current value is greater than beta
+                if v > beta:
+                    return v, best_action
+                #Updates 
+                alpha = max(alpha, v)
+            return v, best_action
+            
+        def min_value(state, depth, agent_index, alpha, beta):
+            #Check if terminal state
+            if state.isWin() or state.isLose() or depth == self.depth:
+                return self.evaluationFunction(state), None
+            v = float("inf")
+            best_action = None
+            #Finds best action for min agent
+            for action in state.getLegalActions(agent_index):
+                #Gets successor for action
+                successor = state.generateSuccessor(agent_index, action)
+                #Gets score of successor
+                if agent_index == state.getNumAgents() - 1:
+                    #If last min agent, get score for max agent
+                    score, _ = max_value(successor, depth + 1, alpha, beta)
+                else:
+                    #Gets score for next depth (min agent)
+                    score, _ = min_value(successor, depth, agent_index + 1, alpha, beta)
+                #Determines best action depending on score
+                if score < v:
+                    v = score
+                    best_action = action
+                #Stops search if current value is less than alpha
+                if v < alpha:
+                    return v, best_action
+                beta = min(beta, v)    
+            return v, best_action
+        
+        #Returns actions
+        _, best_action = max_value(gameState, 0, float("-inf"), float("inf"))
+        return best_action
 
 def betterEvaluationFunction(currentGameState: GameState):
     """

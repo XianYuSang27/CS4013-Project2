@@ -199,7 +199,7 @@ class MinimaxAgent(MultiAgentSearchAgent):
                     best_action = action
             return v, best_action
         
-        #Returns best action for max agent
+        #Returns best actions for agents
         _, best_action = max_value(gameState, 0)
         return best_action
 

@@ -9,3 +9,11 @@ for the distance from a ghost to prevent Pacman from getting eaten by a ghost. I
 Pacman will be too scared of the ghost and not progress. For the food distance, if 20 was lower, Pacman would also sometimes 
 stay in place to avoid the ghost.
 
+2.1) My method has max_value method that determines the action of the max agent. It calls the min_value method to determine
+the score of the next depth to decide its action. This works because it finds the highest score of the successors to determine
+its next action. 
+In the min_value method, it finds the action that will result in a lower score. When it is the last min agent, it will call the 
+max_value method to find the score of the next depth to determine its action because next agent will be the max agent. The min_value
+method works because after getting all the scores, it will find the action that results in the lowest score for the max agent.
+
+

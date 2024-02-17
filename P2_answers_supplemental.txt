@@ -1,3 +1,11 @@
 Jason Chen and Gerry Lin
 
-1.1) For the ReflexAgent implementation, I used Manhattan distance to calculate the distance to the closest food and ghost. Then I used these values to help the agent determine its next action.
+1.1) For the ReflexAgent implementation, I used Manhattan distance to calculate the distance to the closest food and ghost.
+Then I used these values to help the agent determine its next action.
+
+1.2) The evaluation function that I used was "20 / (foodDistance + 1) - 5 / (scaredGhostDistance + 1)" and . I used 20 for food 
+distance so the food that are closest will have higher priority and it produced results that are greater than 1200. I used 5
+for the distance from a ghost to prevent Pacman from getting eaten by a ghost. If I used a higher number like 10, sometimes
+Pacman will be too scared of the ghost and not progress. For the food distance, if 20 was lower, Pacman would also sometimes 
+stay in place to avoid the ghost.
+

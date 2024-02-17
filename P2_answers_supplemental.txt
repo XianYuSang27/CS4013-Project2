@@ -1,1 +1,3 @@
-Please Enter your team's full names and your answers to QS questions here!
+Jason Chen and Gerry Lin
+
+1.1) For the ReflexAgent implementation, I used Manhattan distance to calculate the distance to the closest food and ghost. Then I used these values to help the agent determine its next action.
